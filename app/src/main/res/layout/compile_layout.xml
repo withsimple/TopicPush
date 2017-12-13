@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#eb8fab90"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/compile_tv"
+        android:text="compile"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="title"
+        android:id="@+id/compile_title"
+        android:layout_below="@id/compile_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="content"
+        android:id="@+id/compile_content"
+        android:layout_below="@id/compile_title"
+        android:layout_width="match_parent"
+        android:layout_height="450dp" />
+
+    <Button
+        android:text="submit"
+        android:textColor="#ffffff"
+        android:layout_marginTop="10dp"
+        android:background="#8fab90"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/compile_content"
+        android:id="@+id/compile_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

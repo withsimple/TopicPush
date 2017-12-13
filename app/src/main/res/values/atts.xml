@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopView">
+        <attr name="bt_left_text" format="string" />
+        <attr name="bt_right_text" format="string" />
+        <attr name="bt_left_color" format="color" />
+        <attr name="bt_right_color" format="color" />
+        <attr name="text_color" format="color" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.topic.activity.MainActivity">
+
+
+    <com.topic.view.TopView
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#393535"
+        app:text_color="#c8fffc"
+        app:text="话题推"
+        app:bt_left_color="#ffffff"
+        app:bt_right_color="#000000"
+        app:bt_left_text="topic"
+        app:bt_right_text="search"
+        >
+
+    </com.topic.view.TopView>
+
+    <android.support.design.widget.TabLayout
+        android:layout_below="@id/topView"
+        android:id="@+id/tabLayout"
+        style="@style/TabLayoutStyle"
+        app:tabTextColor="#ffffff"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:layout_below="@id/tabLayout"
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/float_bt"
+        style="@style/FloatActionButtonStyle"
+        android:layout_below="@id/tabLayout" />
+
+</RelativeLayout>
