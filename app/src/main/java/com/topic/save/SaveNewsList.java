@@ -1,6 +1,7 @@
 package com.topic.save;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.topic.DailyNewsApplication;

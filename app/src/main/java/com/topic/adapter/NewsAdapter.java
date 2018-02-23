@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 
+import com.annimon.stream.Stream;
 import com.google.gson.GsonBuilder;
 import com.topic.DailyNewsApplication;
 import com.topic.data.DailyNews;
 import com.topic.data.Helper;
+import com.topic.data.Question;
 import com.topic.save.DailyNewsDataSource;
 
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.List;
 
 public class NewsAdapter extends BaseTopicAdapter {
 
-    public NewsAdapter(List<DailyNews> newsList) {
+    public NewsAdapter(List<DailyNews> newsList,String date) {
         this.newsList = newsList;
         setHasStableIds(true);
     }
@@ -35,9 +38,25 @@ public class NewsAdapter extends BaseTopicAdapter {
                 DailyNews dailyNews = newsList.get(position);
                 dailyNews.setSelect(true);
                 DailyNewsApplication.getDailyNewsDataSource().updateDailyNewsList(dailyNews.getDate(), new GsonBuilder().create().toJson(newsList));
-                String url = dailyNews.getQuestions().get(0).getUrl();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                context.startActivity(intent);
+
+                if(dailyNews.getQuestions().size() > 1) {
+                    String[] questions = Stream.of(dailyNews.getQuestions()).map(Question::getTitle).toArray(String[]::new);
+                    new AlertDialog.Builder(context)
+                            .setTitle(dailyNews.getDailyTitle())
+                            .setItems(questions, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String url = dailyNews.getQuestions().get(i).getUrl();
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    context.startActivity(intent);
+                                }
+                            }).create().show();
+
+                }else {
+                    String url = dailyNews.getQuestions().get(0).getUrl();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    context.startActivity(intent);
+                }
             }
         });
 

@@ -1,8 +1,13 @@
 package com.topic.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -19,20 +24,31 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.topic.DailyNewsApplication;
 import com.topic.R;
+import com.topic.data.DailyNews;
 import com.topic.data.Helper;
+import com.topic.data.Question;
 import com.topic.fragment.NewsFragment;
+import com.topic.save.DailyNewsDataSource;
+import com.topic.view.ReversalView;
 import com.topic.view.TopView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TopView topView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    Handler handler = new Handler();
+
     private FloatingActionButton floatingActionButton;
+
+    //ReversalView reversalView;
 
     private View.OnClickListener floatListener = new View.OnClickListener() {
         @Override
@@ -68,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.float_bt);
+
+        //reversalView = (ReversalView) findViewById(R.id.reversalView);
+
+        //toReversalView();
         //viewPager.setOffscreenPageLimit(4);
 
         floatingActionButton.setOnClickListener(floatListener);
@@ -78,6 +98,38 @@ public class MainActivity extends AppCompatActivity {
 
         initTopViewListener();
     }
+
+//    private void toReversalView() {
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(reversalView, "degreesY", 0, -45);
+//        animator.setDuration(1000);
+//        animator.setStartDelay(500);
+//
+//        ObjectAnimator animator1 = ObjectAnimator.ofFloat(reversalView, "degreesZ", 0, 270);
+//        animator.setDuration(800);
+//        animator1.setStartDelay(500);
+//
+//        ObjectAnimator animator2 = ObjectAnimator.ofFloat(reversalView, "endY", 0, 30);
+//        animator2.setDuration(500);
+//        animator2.setStartDelay(500);
+//
+//        final AnimatorSet set = new AnimatorSet();
+//        set.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                super.onAnimationEnd(animation);
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        reversalView.reset();
+//                        set.start();
+//                    }
+//                }, 500);
+//            }
+//        });
+//
+//        set.playSequentially(animator, animator1, animator2);
+//        set.start();
+//    }
 
     private void initTopViewListener() {
         topView.btSearch.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
             NewsFragment newsFragment = new NewsFragment();
 
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_YEAR, -position);
+            int num = - position + 1;
+            calendar.add(Calendar.DAY_OF_YEAR, num);
             String date = Helper.Dates.format.format(calendar.getTime());
 
             bundle.putString(Helper.DATE_DAILYNEWS, date);

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Topic</string>
+    <string name="qustions_title">查看各种有趣话题</string>
+
 </resources>

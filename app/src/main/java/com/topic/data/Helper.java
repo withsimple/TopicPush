@@ -1,5 +1,7 @@
 package com.topic.data;
 
+import android.util.Log;
+
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -18,7 +20,10 @@ import java.util.Locale;
  */
 
 public class Helper {
-    public static final String ZHIHU_DAILY_PURIFY_BEFORE = "http://zhihudailypurify.herokuapp.com/news/";
+    //public static final String ZHIHU_DAILY_PURIFY_BEFORE = "http://zhihudailypurify.herokuapp.com/news/";
+
+    public static final String ZHIHU_DAILY_PURIFY_BEFORE = "http://news.at.zhihu.com/api/4/news/before/";
+    public static final String ZHIHU_DAILY_PURIFY_ID = "http://news-at.zhihu.com/api/4/news/";
 
     public static final String DATE_DAILYNEWS = "date_daily_news";
 
@@ -49,9 +54,10 @@ public class Helper {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
         try {
             if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
                 String s;
                 while ((s = reader.readLine()) != null) {
@@ -59,6 +65,33 @@ public class Helper {
                 }
 
                 reader.close();
+
+                return builder.toString();
+            } else {
+                throw new IOException("Network exception" + httpURLConnection.getResponseCode());
+            }
+        }finally {
+            httpURLConnection.disconnect();
+        }
+    }
+
+    public static String getHtml(int id) throws IOException {
+        URL url = new URL(ZHIHU_DAILY_PURIFY_ID + id);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        try {
+            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+                StringBuilder builder = new StringBuilder();
+                String s;
+                while ((s = reader.readLine()) != null) {
+                    builder.append(s);
+                }
+
+                reader.close();
+
                 return builder.toString();
             } else {
                 throw new IOException("Network exception" + httpURLConnection.getResponseCode());

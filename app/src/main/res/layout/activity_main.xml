@@ -42,4 +42,10 @@
         style="@style/FloatActionButtonStyle"
         android:layout_below="@id/tabLayout" />
 
+    <!--<com.topic.view.ReversalView-->
+        <!--android:id="@+id/reversalView"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
 </RelativeLayout>

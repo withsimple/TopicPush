@@ -68,8 +68,13 @@ public abstract class BaseTopicAdapter extends RecyclerView.Adapter<BaseTopicAda
         }else {
             holder.title.setTextColor(Color.parseColor("#8A000000"));
         }
-        holder.title.setText(dailyNew.getQuestions().get(0).getTitle());
-        holder.content.setText(dailyNew.getDailyTitle());
+        if(dailyNew.getQuestions().size() > 1) {
+            holder.title.setText(dailyNew.getDailyTitle());
+            holder.content.setText(R.string.qustions_title);
+        }else {
+            holder.title.setText(dailyNew.getQuestions().get(0).getTitle());
+            holder.content.setText(dailyNew.getDailyTitle());
+        }
         bindTopicListener(holder, position);
     }
 

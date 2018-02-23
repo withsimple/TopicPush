@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.topic.data.DailyNews;
 import com.topic.data.Helper;
 
@@ -15,6 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import rx.Observable;
@@ -56,6 +57,7 @@ public class NewsListObservable {
         }).flatMap(new Func1<JSONObject, Observable<JSONArray>>() {
             @Override
             public Observable<JSONArray> call(final JSONObject jsonObject) {
+
                 return Observable.create(new Observable.OnSubscribe<JSONArray>() {
                     @Override
                     public void call(Subscriber<? super JSONArray> subscriber) {

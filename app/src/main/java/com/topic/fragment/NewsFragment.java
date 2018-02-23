@@ -17,17 +17,32 @@ import com.topic.R;
 import com.topic.adapter.NewsAdapter;
 import com.topic.data.DailyNews;
 import com.topic.data.Helper;
+import com.topic.data.Question;
 import com.topic.observable.NewsListObservable;
+import com.topic.observable.ZhiHuNewsListObservable;
 import com.topic.save.DailyNewsDataSource;
 import com.topic.save.SaveNewsList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -70,7 +85,7 @@ public class NewsFragment extends Fragment implements Observer<List<DailyNews>>,
         recycler.setLayoutManager(linearLayoutManager);
 
 
-        adapter = new NewsAdapter(newsList);
+        adapter = new NewsAdapter(newsList, date);
         recycler.setAdapter(adapter);
 
         refresh.setOnRefreshListener(this);
@@ -84,6 +99,7 @@ public class NewsFragment extends Fragment implements Observer<List<DailyNews>>,
         DailyNewsDataSource dataSource = DailyNewsApplication.getDailyNewsDataSource();
 
         List<DailyNews> dataNewsList = dataSource.theSaveDailyNews(date);
+
         if(dataNewsList != null) {
             newsList = dataNewsList;
             adapter.updateNewsList(newsList);
@@ -96,10 +112,17 @@ public class NewsFragment extends Fragment implements Observer<List<DailyNews>>,
         if(refresh != null) {
             refresh.setRefreshing(true);
         }
-        NewsListObservable.getNewsListObservable(date)
+//        NewsListObservable.getNewsListObservable(date)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this);
+
+        ZhiHuNewsListObservable.getZhiHuNewsListObservable(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this);
+
+
     }
 
     @Override
